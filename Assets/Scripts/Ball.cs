@@ -22,15 +22,20 @@ public class Ball : MonoBehaviour
         newSplash.transform.parent = collision.transform;
 
         string materialName=collision.gameObject.GetComponent<MeshRenderer>().material.name;
-       
+
+        if (materialName== "Safe (Instance)")
+        {
+            
+        }
         
         if (materialName == "UnSafe (Instance)")
         {
             GameManager.gameOver = true;
         }
 
-        else if (materialName == "LastRing (Instance)")
+        if (materialName == "LastRing (Instance)")
         {
+           
             GameManager.levelComplete = true;
         }
     }

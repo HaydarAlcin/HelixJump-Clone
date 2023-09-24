@@ -23,7 +23,7 @@ public class Ring : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.y>_player.position.y+ 0.1f) 
+        if (transform.position.y>_player.position.y+0.2f) 
         {
             for (int i = 0; i < childRings.Count; i++)
             {
