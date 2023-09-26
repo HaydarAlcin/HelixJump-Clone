@@ -23,8 +23,10 @@ public class Ring : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.y>_player.position.y+0.2f) 
+        if (transform.position.y>_player.position.y+0.3f) 
         {
+            GameManager.noOfPassingRings++;
+
             for (int i = 0; i < childRings.Count; i++)
             {
                 childRings[i].GetComponent<Rigidbody>().isKinematic = false;
@@ -40,6 +42,7 @@ public class Ring : MonoBehaviour
                         rb.AddExplosionForce(_force, transform.position, _radius);
                     }
                 }
+                childRings[i].GetComponent<MeshCollider>().enabled = false;
                 childRings[i].transform.parent = null;
                 Destroy(childRings[i].gameObject,2f);
             }
