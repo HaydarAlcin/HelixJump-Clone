@@ -8,14 +8,24 @@ public class Ball : MonoBehaviour
     [SerializeField] float bounceForce=200f;
     [SerializeField] GameObject splashPrefab;
 
+    AudioManager audioManager;
+
     private void Start()
     {
+        audioManager=GameObject.FindObjectOfType<AudioManager>();
         rb = GetComponent<Rigidbody>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (GameManager.gameOver == false || GameManager.levelComplete == false)
+        {
+            audioManager.Play("Land");
+        }
+
         rb.velocity = new Vector3(rb.velocity.x, bounceForce * Time.deltaTime, rb.velocity.z);
+        
+
         GameObject newSplash = Instantiate(splashPrefab,new Vector3(transform.position.x, collision.transform.position.y+ 0.185f, transform.position.z), Quaternion.Euler(90,0,0));
 
         newSplash.transform.localScale= Vector3.one*Random.Range(0.4f,1.3f);
@@ -23,20 +33,19 @@ public class Ball : MonoBehaviour
 
         string materialName=collision.gameObject.GetComponent<MeshRenderer>().material.name;
 
-        if (materialName== "Safe (Instance)")
-        {
-            
-        }
-        
         if (materialName == "UnSafe (Instance)")
         {
             GameManager.gameOver = true;
+            audioManager.Play("GameOver");
+            
         }
 
-        if (materialName == "LastRing (Instance)")
+        if (materialName == "LastRing (Instance)" && !GameManager.levelComplete)
         {
-           
             GameManager.levelComplete = true;
+            audioManager.Play("LevelWin");
+            
         }
+
     }
 }

@@ -11,8 +11,12 @@ public class Ring : MonoBehaviour
     private float _radius = 100f;
     private float _force = 400f;
 
+    AudioManager audioManager;
+
     private void Start()
     {
+        audioManager = FindObjectOfType<AudioManager>();
+
         _player=GameObject.FindGameObjectWithTag("Player").transform;
 
         //for (int i = 0; i < 8; i++)
@@ -23,7 +27,7 @@ public class Ring : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.y>_player.position.y+0.3f) 
+        if (transform.position.y>_player.position.y+0.1f) 
         {
             GameManager.noOfPassingRings++;
 
@@ -47,6 +51,8 @@ public class Ring : MonoBehaviour
                 Destroy(childRings[i].gameObject,2f);
             }
             this.enabled = false;
+
+            audioManager.Play("RingDestroy");
         }
     }
 }
